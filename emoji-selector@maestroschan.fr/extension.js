@@ -284,7 +284,6 @@ function enable() {
 	POSITION = SETTINGS.get_string('position');
 	
 	GLOBAL_BUTTON = new EmojisMenu();
-	GLOBAL_BUTTON.clearTimeouts()
 	// about addToStatusArea :
 	// - 'EmojisMenu' is an id
 	// - 0 is the position
@@ -325,7 +324,6 @@ function init() {
 function disable() {
 	// we need to save these data for the next session
 	GLOBAL_BUTTON.searchItem.saveRecents();
-	GLOBAL_BUTTON.disableTimeouts()
 	if (SETTINGS.get_boolean('use-keybinding')) {
 		Main.wm.removeKeybinding('emoji-keybinding');
 	}
