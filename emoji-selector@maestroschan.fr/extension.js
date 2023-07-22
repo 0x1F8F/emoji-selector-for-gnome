@@ -51,13 +51,14 @@ var GLOBAL_BUTTON;
 // These global variables are used to store some static settings
 var NB_COLS;
 let POSITION;
-
 //------------------------------------------------------------------------------
 
 /*
  * This is the main class of this extension, corresponding to the button in the
  * top panel and its menu.
  */
+
+
 class EmojisMenu {
 	constructor() {
 		this.super_btn = new PanelMenu.Button(0.0, _("Emoji Selector"), false);
@@ -264,37 +265,26 @@ class EmojisMenu {
 		);
 	}
 
+	
+
 //	destroy() { // XXX ?
 //		this.unloadCategories();
 //		for (let i=1; i<this.emojiCategories.length; i++) {
 //			this.emojiCategories[i].destroy();
 //		}
 //	}
-
 };
 
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
 
-function init() {
-	ExtensionUtils.initTranslations('emoji-selector');
-	try {
-		let theme = imports.gi.Gtk.IconTheme.get_default();
-		theme.append_search_path(Me.path + '/icons');
-	} catch (e) {
-		// Appending bullshit to the icon theme path is deprecated, but 18.04
-		// users don't have the icons so i do it anyway.
-	}
-}
-
-//------------------------------------------------------------------------------
 
 function enable() {
 	SETTINGS = ExtensionUtils.getSettings();
 	POSITION = SETTINGS.get_string('position');
-
+	
 	GLOBAL_BUTTON = new EmojisMenu();
-
+	GLOBAL_BUTTON.clearTimeouts()
 	// about addToStatusArea :
 	// - 'EmojisMenu' is an id
 	// - 0 is the position
@@ -320,12 +310,22 @@ function enable() {
 	});
 }
 
-//------------------------------------------------------------------------------
-
+// ------------------------------------------------------------------------------------------------------------
+function init() {
+	ExtensionUtils.initTranslations('emoji-selector');
+	try {
+		let theme = imports.gi.Gtk.IconTheme.get_default();
+		theme.append_search_path(Me.path + '/icons');
+	} catch (e) {
+		// Appending bullshit to the icon theme path is deprecated, but 18.04
+		// users don't have the icons so i do it anyway.
+	}
+}
+// -------------------------------------------------------------------------------------------------------------
 function disable() {
 	// we need to save these data for the next session
 	GLOBAL_BUTTON.searchItem.saveRecents();
-
+	GLOBAL_BUTTON.disableTimeouts()
 	if (SETTINGS.get_boolean('use-keybinding')) {
 		Main.wm.removeKeybinding('emoji-keybinding');
 	}
@@ -342,5 +342,3 @@ function disable() {
 		timeoutSourceId = null;
 	}
 }
-
-//------------------------------------------------------------------------------

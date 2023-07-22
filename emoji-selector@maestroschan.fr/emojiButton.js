@@ -1,7 +1,6 @@
 //this file is part of https://github.com/maoschanz/emoji-selector-for-gnome
 
-const St = imports.gi.St;
-const Clutter = imports.gi.Clutter;
+const { GLib, Gio, St, Clutter, Gdk } = imports.gi;
 
 /* Import the current extension, mainly because we need to access other files */
 const ExtensionUtils = imports.misc.extensionUtils;
@@ -15,6 +14,12 @@ const CLIPBOARD_TYPE = St.ClipboardType.CLIPBOARD;
 const GENDERS =	['',	'\u200D\u2640\uFE0F',	'\u200D\u2642\uFE0F'];
 const GENDERS2 = ['👩','👨'];
 const TONES = ['', '🏻', '🏼', '🏽', '🏾', '🏿'];
+
+// Virtual Key Board
+const DEVICET_TYPE = Clutter.InputDeviceType.KEYBOARD_DEVICE;
+const VirtualKeyboard = Clutter.get_default_backend().get_default_seat().create_virtual_device(DEVICET_TYPE);
+
+
 // TODO hairs?? red/curly/white/bald
 // TODO symbols
 
@@ -23,6 +28,9 @@ const TONES = ['', '🏻', '🏼', '🏽', '🏾', '🏿'];
 var EmojiButton = class EmojiButton {
 
 	constructor(baseCharacter, keywords) {
+		this.virtualKeyboard = Clutter.get_default_backend().get_default_seat().create_virtual_device(DEVICET_TYPE);
+        this.clipboard = St.Clipboard.get_default();
+
 		this.baseCharacter = baseCharacter;
 		let tonable = false;
 		let genrable = false;
@@ -99,6 +107,33 @@ var EmojiButton = class EmojiButton {
 		}
 		return Clutter.EVENT_PROPAGATE;
 	}
+	// -----------------------------------------------------------------------------------------------------
+    getVirtualKeyboard() {
+        if (this.virtualKeyboard) {
+            return this.virtualKeyboard;
+        }
+        
+
+        return this.virtualKeyboard;
+    }
+
+	pasteFromClipboard() {
+		// Simulate paste event at last copyed text
+        this.clipboard.get_text(CLIPBOARD_TYPE, (clipboard, text) => {
+            GLib.timeout_add(GLib.PRIORITY_DEFAULT, 100, () => {
+                this.virtualKeyboard.notify_keyval(Clutter.get_current_event_time(), Clutter.KEY_Control_L, Clutter.KeyState.RELEASED);
+                this.virtualKeyboard.notify_keyval(Clutter.get_current_event_time(), Clutter.KEY_Control_L, Clutter.KeyState.PRESSED);
+                this.virtualKeyboard.notify_keyval(Clutter.get_current_event_time(), Clutter.KEY_v, Clutter.KeyState.PRESSED);
+            });
+
+            GLib.timeout_add(GLib.PRIORITY_DEFAULT, 200, () => {
+                this.virtualKeyboard.notify_keyval(Clutter.get_current_event_time(), Clutter.KEY_Control_L, Clutter.KeyState.RELEASED);
+                this.virtualKeyboard.notify_keyval(Clutter.get_current_event_time(), Clutter.KEY_v, Clutter.KeyState.RELEASED);
+            });
+        })
+    }
+
+
 
 	/*
 	 * This method is called at each click and copies the emoji to the clipboard.
@@ -129,6 +164,7 @@ var EmojiButton = class EmojiButton {
 			emojiToCopy
 		);
 		Extension.GLOBAL_BUTTON.super_btn.menu.close();
+		this.pasteFromClipboard()
 		return Clutter.EVENT_STOP;
 	}
 
@@ -150,6 +186,8 @@ var EmojiButton = class EmojiButton {
 		return Clutter.EVENT_STOP;
 	}
 
+
+
 	// TODO update this old comment and add the tag for symbol
 	/*
 	 * This returns an emoji corresponding to .super_btn.label with tags applied
@@ -161,6 +199,7 @@ var EmojiButton = class EmojiButton {
 	 *   tone is applied ([man|woman] + [skin tone if any] + [other symbol(s)]).
 	 * If all tags are false, it returns unmodified .super_btn.label
 	 */
+
 	getTaggedEmoji() {
 		let currentEmoji = this.super_btn.label;
 		if(currentEmoji == '') {
