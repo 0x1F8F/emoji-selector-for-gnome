@@ -18,7 +18,7 @@ import { ExtensionPreferences, gettext as _ } from 'resource:///org/gnome/Shell/
 import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
 //------------------------------------------------------------------------------
 
-const Me = Extension.lookupByUUID(import.meta.url);
+const Me = Extension.lookupByURL(import.meta.url);
 function init() {
 	Me.initTranslations();
 }
