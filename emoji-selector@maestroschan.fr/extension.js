@@ -17,27 +17,50 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-const {St, Clutter, Shell, Meta, GLib} = imports.gi;
+// const {St, Clutter, Shell, Meta, GLib} = imports.gi;
 
-const Main = imports.ui.main;
+// const Main = imports.ui.main;
+
+/* NEW */
+
+import St from "gi://St";
+import Clutter from "gi://Clutter";
+import Shell from "gi:/Shell";
+import Meta from "gi://Meta";
+import GLib from "gi://GLib";
+import GTK from "gi://GTK?version=4.0";
 
 /* Import PanelMenu and PopupMenu */
-const PanelMenu = imports.ui.panelMenu;
-const PopupMenu = imports.ui.popupMenu;
+import * as Main from 'resource:///org/gnome/shell/ui/main.js';
+import PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js';
+import PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
+
+// const PanelMenu = imports.ui.panelMenu;
+// const PopupMenu = imports.ui.popupMenu;
 
 const Clipboard = St.Clipboard.get_default();
 const CLIPBOARD_TYPE = St.ClipboardType.CLIPBOARD;
 
 /* Stuffs for settings, translations etc. */
-const Gettext = imports.gettext.domain('emoji-selector');
-const _ = Gettext.gettext;
+// const Gettext = imports.gettext.domain('emoji-selector');
+// const _ = Gettext.gettext;
 
-const ExtensionUtils = imports.misc.extensionUtils;
-const Me = ExtensionUtils.getCurrentExtension();
-const SkinTonesBar = Me.imports.emojiOptionsBar.SkinTonesBar;
-const EmojiCategory = Me.imports.emojiCategory.EmojiCategory;
-const EmojiButton = Me.imports.emojiButton.EmojiButton;
-const EmojiSearchItem = Me.imports.emojiSearchItem.EmojiSearchItem;
+// const ExtensionUtils = imports.misc.extensionUtils;
+// const Me = ExtensionUtils.getCurrentExtension();
+// const SkinTonesBar = Me.imports.emojiOptionsBar.SkinTonesBar;
+// const EmojiCategory = Me.imports.emojiCategory.EmojiCategory;
+// const EmojiButton = Me.imports.emojiButton.EmojiButton;
+// const EmojiSearchItem = Me.imports.emojiSearchItem.EmojiSearchItem;
+
+//------------------------------------------------------------------------------
+import { SkinTonesBar } from "./emojiOptionsBar";
+import { EmojiCategory } from "./emojiCategory";
+import { EmojiButton } from "./emojiButton";
+import { EmojiSearchItem } from "./emojiSearchItem";
+import * as ExtensionUtils from 'resource:///org/gnome/shell/misc/util.js';
+// const Me = ExtensionUtils.getCurrentExtension();
+Me = Extension.lookupByURL(import.meta.url);
+import {Extension, gettext as _} from 'resource:///org/gnome/shell/extensions/extension.js'
 
 //------------------------------------------------------------------------------
 
@@ -280,7 +303,7 @@ class EmojisMenu {
 
 
 function enable() {
-	SETTINGS = ExtensionUtils.getSettings();
+	SETTINGS = Me.getSettings();
 	POSITION = SETTINGS.get_string('position');
 	
 	GLOBAL_BUTTON = new EmojisMenu();
@@ -311,9 +334,9 @@ function enable() {
 
 // ------------------------------------------------------------------------------------------------------------
 function init() {
-	ExtensionUtils.initTranslations('emoji-selector');
+	Me.initTranslations();
 	try {
-		let theme = imports.gi.Gtk.IconTheme.get_default();
+		let theme = Gtk.IconTheme.get_default();
 		theme.append_search_path(Me.path + '/icons');
 	} catch (e) {
 		// Appending bullshit to the icon theme path is deprecated, but 18.04
@@ -339,4 +362,15 @@ function disable() {
 		GLib.Source.remove(timeoutSourceId);
 		timeoutSourceId = null;
 	}
+}
+
+export default class EmojiSelectorExtension {
+	enable() {
+		init()
+		enable()
+    }
+
+	disable() {
+		disable()
+    }
 }

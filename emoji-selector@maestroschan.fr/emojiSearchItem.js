@@ -1,26 +1,29 @@
 // this file is part of https://github.com/maoschanz/emoji-selector-for-gnome
 
-const St = imports.gi.St;
-
-const PopupMenu = imports.ui.popupMenu;
+// const St = imports.gi.St;
+// const PopupMenu = imports.ui.popupMenu;
+import St from "gi://St"
+import PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
 
 /* Import the current extension, mainly because we need to access other files */
-const ExtensionUtils = imports.misc.extensionUtils;
+// const ExtensionUtils = imports.misc.extensionUtils;
+import * as ExtensionUtils from 'resource:///org/gnome/shell/misc/util.js';
 const Me = ExtensionUtils.getCurrentExtension();
-const Extension = Me.imports.extension;
-const EmojiButton = Me.imports.emojiButton.EmojiButton;
+// const Extension = Me.imports.extension;
+// const EmojiButton = Me.imports.emojiButton.EmojiButton;
+import { EmojiButton } from "./emojiButton";
 
 /* Translations */
-const Gettext = imports.gettext.domain('emoji-selector');
-const _ = Gettext.gettext;
-
+// const Gettext = imports.gettext.domain('emoji-selector');
+// const _ = Gettext.gettext;
+import {Extension, gettext as _} from 'resource:///org/gnome/shell/extensions/extension.js'
 //------------------------------------------------------------------------------
 
 /**
  * A wrapper around a menu item, with a search entry added to it, and a second
  * menu item with a list of buttons for recently used emojis.
  */
-var EmojiSearchItem = class EmojiSearchItem {
+export var EmojiSearchItem = class EmojiSearchItem {
 
 	constructor(nbColumns) {
 		this.super_item = new PopupMenu.PopupBaseMenuItem({

@@ -1,19 +1,21 @@
 //this file is part of https://github.com/maoschanz/emoji-selector-for-gnome
 
-const St = imports.gi.St;
+// const St = imports.gi.St;
+import St from "gi://St";
 
 /* Import the current extension, mainly because we need to access other files */
-const ExtensionUtils = imports.misc.extensionUtils;
-const Me = ExtensionUtils.getCurrentExtension();
-const Extension = Me.imports.extension;
+// const ExtensionUtils = imports.misc.extensionUtils;
+// import * as ExtensionUtils from 'resource:///org/gnome/shell/misc/util.js';
+// const Me = ExtensionUtils.getCurrentExtension();
+// const Extension = Me.imports.extension;
 
 /* Stuffs for translations etc. */
-const Gettext = imports.gettext.domain('emoji-selector');
-const _ = Gettext.gettext;
-
+// const Gettext = imports.gettext.domain('emoji-selector');
+// const _ = Gettext.gettext;
+import {Extension, gettext as _} from 'resource:///org/gnome/shell/extensions/extension.js'
 ////////////////////////////////////////////////////////////////////////////////
 
-var SkinTonesBar = class SkinTonesBar {
+export var SkinTonesBar = class SkinTonesBar {
 	constructor(hasGender) {
 		this._toneArray = [];
 

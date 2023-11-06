@@ -1,20 +1,29 @@
 // prefs.js (https://github.com/maoschanz/emoji-selector-for-gnome)
 
-const {GLib, GObject, Gio, Gtk, GdkPixbuf} = imports.gi;
+// const {GLib, GObject, Gio, Gtk, GdkPixbuf} = imports.gi;
+import GLib from "gi://GLib";
+import GObject from "gi://GObject";
+import GTk from "gi://GTK?version=4.0";
+import Gio from "gi://Gio";
 
-const Gettext = imports.gettext.domain('emoji-selector');
-const _ = Gettext.gettext;
+// const Gettext = imports.gettext.domain('emoji-selector');
+// const _ = Gettext.gettext;
+import { ExtensionPreferences, gettext as _ } from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 
-const ExtensionUtils = imports.misc.extensionUtils;
-const Me = ExtensionUtils.getCurrentExtension();
 
+// const ExtensionUtils = imports.misc.extensionUtils;
+// const Me = ExtensionUtils.getCurrentExtension();
+
+import * as ExtensionUtils from 'resource:///org/gnome/shell/misc/util.js';
+import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
 //------------------------------------------------------------------------------
 
+const Me = Extension.lookupByUUID(import.meta.url);
 function init() {
-	ExtensionUtils.initTranslations();
+	Me.initTranslations();
 }
 
-let SETTINGS = ExtensionUtils.getSettings();
+let SETTINGS = Me.getSettings();
 
 //------------------------------------------------------------------------------
 
@@ -185,3 +194,8 @@ function buildPrefsWidget() {
 
 //------------------------------------------------------------------------------
 
+export default class EmojiSelectorExtensionPreferences extends ExtensionPreferences {
+    fillPreferencesWindow(window) {
+        buildPrefsWidget()
+    }
+}

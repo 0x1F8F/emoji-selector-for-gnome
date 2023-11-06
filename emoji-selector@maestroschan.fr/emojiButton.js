@@ -1,12 +1,17 @@
 //this file is part of https://github.com/maoschanz/emoji-selector-for-gnome
 
-const { GLib, Gio, St, Clutter, Gdk } = imports.gi;
+// const { GLib, Gio, St, Clutter, Gdk } = imports.gi;
+import St from "gi://St";
+import Clutter from "gi://Clutter";
+import Meta from "gi://Meta";
+import GLib from "gi://GLib";
 
 /* Import the current extension, mainly because we need to access other files */
-const ExtensionUtils = imports.misc.extensionUtils;
-const Me = ExtensionUtils.getCurrentExtension();
-const Extension = Me.imports.extension;
-
+// const ExtensionUtils = imports.misc.extensionUtils;
+// import * as ExtensionUtils from 'resource:///org/gnome/shell/misc/util.js';
+// const Me = ExtensionUtils.getCurrentExtension();
+// const Extension = Me.imports.extension;
+import {Extension, gettext as _} from 'resource:///org/gnome/shell/extensions/extension.js'
 const Clipboard = St.Clipboard.get_default();
 const CLIPBOARD_TYPE = St.ClipboardType.CLIPBOARD;
 
@@ -25,7 +30,7 @@ const VirtualKeyboard = Clutter.get_default_backend().get_default_seat().create_
 
 //------------------------------------------------------------------------------
 
-var EmojiButton = class EmojiButton {
+export var EmojiButton = class EmojiButton {
 
 	constructor(baseCharacter, keywords) {
 		this.virtualKeyboard = Clutter.get_default_backend().get_default_seat().create_virtual_device(DEVICET_TYPE);

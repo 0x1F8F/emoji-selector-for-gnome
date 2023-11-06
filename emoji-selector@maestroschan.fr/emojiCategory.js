@@ -1,16 +1,22 @@
 //this file is part of https://github.com/maoschanz/emoji-selector-for-gnome
 
-const Clutter = imports.gi.Clutter;
-const St = imports.gi.St;
-const PopupMenu = imports.ui.popupMenu;
+// const Clutter = imports.gi.Clutter;
+// const St = imports.gi.St;
+// const PopupMenu = imports.ui.popupMenu;
+import St from "gi://St";
+import Clutter from "gi://Clutter";
+import PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
 
 /* Import the current extension, mainly because we need to access other files */
-const ExtensionUtils = imports.misc.extensionUtils;
-const Me = ExtensionUtils.getCurrentExtension();
-const SkinTonesBar = Me.imports.emojiOptionsBar.SkinTonesBar;
-const Extension = Me.imports.extension;
-const EmojiButton = Me.imports.emojiButton;
-
+// const ExtensionUtils = imports.misc.extensionUtils;
+import * as ExtensionUtils from 'resource:///org/gnome/shell/misc/util.js';
+// const Me = ExtensionUtils.getCurrentExtension();
+// const SkinTonesBar = Me.imports.emojiOptionsBar.SkinTonesBar;
+// const Extension = Me.imports.extension;
+// const EmojiButton = Me.imports.emojiButton;
+import { SkinTonesBar } from "./emojiOptionsBar";
+import { EmojiButton } from "./emojiButton";
+import {Extension, gettext as _} from 'resource:///org/gnome/shell/extensions/extension.js'
 /**
  * This imports data (array of arrays of characters, and array of arrays
  * of strings). Keywords are used for both:
@@ -18,12 +24,14 @@ const EmojiButton = Me.imports.emojiButton;
  * - skin tone management
  * - gender management
  */
-const EMOJIS_CHARACTERS = Me.imports.data.emojisCharacters.ALL;
-const EMOJIS_KEYWORDS = Me.imports.data.emojisKeywords.ALL_KEYWORDS;
+// const EMOJIS_CHARACTERS = Me.imports.data.emojisCharacters.ALL;
+// const EMOJIS_KEYWORDS = Me.imports.data.emojisKeywords.ALL_KEYWORDS;
 
+import { ALL as EMOJIS_CHARACTERS } from "./data/emojisCharacters";
+import { ALL_KEYWORDS as EMOJIS_KEYWORDS } from "./data/emojisKeywords";
 ////////////////////////////////////////////////////////////////////////////////
 
-var EmojiCategory = class EmojiCategory {
+export var EmojiCategory = class EmojiCategory {
 
 	/**
 	 * The category and its button have to be built without being loaded, to
