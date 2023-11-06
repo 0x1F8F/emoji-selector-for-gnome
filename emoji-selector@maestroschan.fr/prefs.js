@@ -14,7 +14,7 @@ import { ExtensionPreferences, gettext as _ } from 'resource:///org/gnome/Shell/
 // const ExtensionUtils = imports.misc.extensionUtils;
 // const Me = ExtensionUtils.getCurrentExtension();
 
-import * as ExtensionUtils from 'resource:///org/gnome/shell/misc/util.js';
+//import * as ExtensionUtils from 'resource:///org/gnome/shell/misc/util.js';
 import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
 //------------------------------------------------------------------------------
 
