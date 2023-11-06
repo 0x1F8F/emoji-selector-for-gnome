@@ -175,7 +175,7 @@ const EmojiSelectorSettingsWidget = new GObject.Class({
 function buildPrefsWidget() {
 	let widget = new EmojiSelectorSettingsWidget();
 	let obj = widget.prefs_stack;
-
+/*
 	obj.connect('realize', () => {
 		let window = (this._shellVersion < 40) ? obj.get_toplevel() : obj.get_root();
 		if (this._shellVersion < 40) {
@@ -185,7 +185,7 @@ function buildPrefsWidget() {
 			this._registerSignals(window);
 		}
 	});
-
+*/
 	if (widget.prefs_stack.show_all)
 		widget.prefs_stack.show_all();
 
