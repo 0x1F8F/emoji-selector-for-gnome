@@ -53,11 +53,11 @@ const CLIPBOARD_TYPE = St.ClipboardType.CLIPBOARD;
 // const EmojiSearchItem = Me.imports.emojiSearchItem.EmojiSearchItem;
 
 //------------------------------------------------------------------------------
-import { SkinTonesBar } from "./emojiOptionsBar";
-import { EmojiCategory } from "./emojiCategory";
-import { EmojiButton } from "./emojiButton";
-import { EmojiSearchItem } from "./emojiSearchItem";
-import * as ExtensionUtils from 'resource:///org/gnome/shell/misc/util.js';
+import { SkinTonesBar } from "./emojiOptionsBar.js";
+import { EmojiCategory } from "./emojiCategory.js";
+import { EmojiButton } from "./emojiButton.js";
+import { EmojiSearchItem } from "./emojiSearchItem.js";
+//import * as ExtensionUtils from 'resource:///org/gnome/shell/misc/util.js';
 // const Me = ExtensionUtils.getCurrentExtension();
 Me = Extension.lookupByURL(import.meta.url);
 import {Extension, gettext as _} from 'resource:///org/gnome/shell/extensions/extension.js'
