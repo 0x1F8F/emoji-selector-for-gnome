@@ -47,27 +47,12 @@ The extension is currently available in the following languages:
 
 ## Installation
 
-#### Default way to do
-
-The better option is to install it from [here](https://extensions.gnome.org/extension/1162/emoji-selector/).
-
-#### Native packages
-
-- [`gnome-shell-extension-emoji-selector` (**Fedora**)](https://src.fedoraproject.org/rpms/gnome-shell-extension-emoji-selector)
-- `gnome-shell-emoji-selector` (**nixOS**)
-- [`gnome-shell-extension-emoji-selector-git` (**AUR**)](https://aur.archlinux.org/packages/gnome-shell-extension-emoji-selector-git/)
-- ...<!-- TODO à compléter -->
-
-#### Manual installation
-
-**Not recommended at all:** installing the extension this way prevent any
-further update.
 
 Download and extract the ZIP, then open a terminal in the project's directory,
 and run `./install.sh`. It should copy the "emoji-selector@maestroschan.fr"
 folder to `~/.local/share/gnome-shell/extensions/`, which can be done manually
 if you prefer.
 
-You may need to restart the GNOME Shell environment (logout and login again, or
-<kbd>Alt</kbd>+<kbd>F2</kbd> -> `r` ->, <kbd>Enter</kbd>).
+You may need to restart the GNOME Shell environment (logout and login again for wayland, or
+<kbd>Alt</kbd>+<kbd>F2</kbd> -> `r` -> for x11, <kbd>Enter</kbd>).
 
